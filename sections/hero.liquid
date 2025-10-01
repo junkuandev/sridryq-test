@@ -1,0 +1,340 @@
+<section class="hero" style="background-image:url({{ section.settings.bg_image | image_url: width: 2400 }});">
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content page-width">
+    {%- comment -%} TEXT BLOCKS {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          <h1 class="hero__heading" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </h1>
+
+        {%- when 'subheading' -%}
+          <div class="hero__subheading" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </div>
+        {%- when 'countdown' -%}
+          <div class="hero__countdown" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <div class="countdown__heading">{{ block.settings.heading }}</div>
+            {%- endif -%}
+
+            <div class="countdown__timer" data-end="{{ block.settings.end_datetime }}">
+              <div>
+                <span class="countdown__num" data-unit="days">0</span><span class="countdown__label">Days</span>
+              </div>
+              <div>
+                <span class="countdown__num" data-unit="hours">0</span><span class="countdown__label">Hours</span>
+              </div>
+              <div>
+                <span class="countdown__num" data-unit="minutes">0</span><span class="countdown__label">Minutes</span>
+              </div>
+              <div>
+                <span class="countdown__num" data-unit="seconds">0</span><span class="countdown__label">Seconds</span>
+              </div>
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+
+    {%- comment -%} BUTTONS: render all in ONE container {%- endcomment -%}
+    {%- assign has_buttons = false -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'button' and block.settings.label != blank -%}
+        {%- assign has_buttons = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_buttons -%}
+      <div class="hero__buttons">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'button' and block.settings.label != blank -%}
+            <a
+              {% if block.settings.link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.link }}"
+              {% endif %}
+              class="
+                button
+                {% if block.settings.style == 'secondary' %} button--secondary
+                {% elsif block.settings.style == 'brand' %} button--brand
+                {% else %} button--primary
+                {% endif %}
+              "
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.icon != blank -%}
+                <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="" class="button__icon">
+              {%- endif -%}
+              {{ block.settings.label }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero (block-based)",
+  "settings": [{ "type": "image_picker", "id": "bg_image", "label": "Background image" }],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [{ "type": "richtext", "id": "text", "label": "Heading text", "default": "<p>AWESOME!</p>" }]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Subheading text",
+          "default": "<p>Your discount has been automatically applied.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Order Now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "default": "primary",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "brand", "label": "Brand/PayPal" }
+          ]
+        },
+        { "type": "image_picker", "id": "icon", "label": "Optional icon/logo" }
+      ]
+    },
+    {
+      "type": "countdown",
+      "name": "Countdown Timer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Countdown heading",
+          "default": "Sale Ends Soon!"
+        },
+        {
+          "type": "text",
+          "id": "end_datetime",
+          "label": "End date/time (YYYY-MM-DDTHH:MM:SS)",
+          "default": "2026-02-14T12:00:00"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero (block-based)",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "subheading" },
+        { "type": "button", "settings": { "label": "Order Now" } },
+        { "type": "button", "settings": { "label": "Pay with PayPal", "style": "brand" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+  /* Fill viewport, center card */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* push content below transparent header (adjust fallback as needed) */
+    --header-h: var(--header-height, 72px);
+    --announce-h: var(--announcement-bar-height, 0px);
+    padding-top: calc(var(--header-h) + var(--announce-h) + clamp(8px, 2vw, 16px));
+    padding-left: clamp(12px, 3vw, 32px);
+    padding-right: clamp(12px, 3vw, 32px);
+  }
+
+  /* Overlay covers fully; optional tint */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0);
+    pointer-events: none;
+  }
+
+  /* Glass card as a true block */
+  .hero__content {
+    position: relative;
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    padding: clamp(16px, 3.2vw, 40px);
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.44);
+    border: 1px solid #e6e6e6;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Richtext tidy spacing */
+  .hero__heading :where(p) {
+    margin: 0 0 0.25em;
+    font-weight: 800;
+    font-size: clamp(28px, 5vw, 56px);
+    letter-spacing: 0.02em;
+  }
+  .hero__subheading :where(p) {
+    margin: 0.25em 0 1.25em;
+    font-size: clamp(16px, 2.2vw, 22px);
+    opacity: 0.9;
+  }
+
+  /* One buttons row */
+  .hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(8px, 1.4vw, 16px);
+    margin-top: clamp(10px, 1.6vw, 20px);
+  }
+
+  /* Buttons */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.06s ease, filter 0.2s ease;
+  }
+  .button:active {
+    transform: translateY(1px);
+  }
+  .button__icon {
+    height: 20px;
+    width: auto;
+  }
+
+  /* Variants */
+  .button--primary {
+    background: #b68d40;
+    color: #fff;
+  }
+  .button--secondary {
+    background: #eee;
+    color: #222;
+  }
+  .button--brand {
+    background: #ffc439;
+    color: #111;
+  } /* PayPal-like */
+  .hero__countdown {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .countdown__heading {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .countdown__timer {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .countdown__timer > div {
+    background: #555;
+    color: #fff;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    min-width: 70px;
+  }
+  .countdown__num {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .countdown__label {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+{% endstylesheet %}
+<script>
+  (function () {
+    function parseLocalISO(str) {
+      if (!str) return null;
+      if (/[Zz]|[+\-]\d{2}:\d{2}$/.test(str)) {
+        const d = new Date(str);
+        return isNaN(d) ? null : d;
+      }
+      const m = String(str)
+        .trim()
+        .match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?$/);
+      if (!m) return null;
+      return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0));
+    }
+
+    function initTimer(timer) {
+      const endStr = timer.getAttribute('data-end') || '';
+      const end = parseLocalISO(endStr);
+      if (!end) return;
+
+      const dEl = timer.querySelector('[data-unit="days"]');
+      const hEl = timer.querySelector('[data-unit="hours"]');
+      const mEl = timer.querySelector('[data-unit="minutes"]');
+      const sEl = timer.querySelector('[data-unit="seconds"]');
+
+      function tick() {
+        let diff = end.getTime() - Date.now();
+        if (diff <= 0) {
+          timer.innerHTML = "<span class='countdown__expired'>This offer has ended</span>";
+          clearInterval(int);
+          return;
+        }
+
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+
+        dEl.textContent = d;
+        hEl.textContent = h;
+        mEl.textContent = m;
+        sEl.textContent = s;
+      }
+
+      tick();
+      const int = setInterval(tick, 1000);
+    }
+
+    function initScope(scope) {
+      (scope || document).querySelectorAll('.countdown__timer').forEach(initTimer);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => initScope());
+    document.addEventListener('shopify:section:load', (e) => initScope(e.target));
+  })();
+</script>
