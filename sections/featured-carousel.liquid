@@ -1,0 +1,257 @@
+<div class="featured-product-split fps-{{ section.id }}">
+  {% assign product = all_products[section.settings.product] %}
+  {% if product %}
+    <!-- TOP ROW -->
+    <div class="fps__row fps__row--top">
+      <!-- LEFT: DESCRIPTION -->
+      <div class="fps__col fps__text">
+        {{ product.description }}
+      </div>
+
+      <!-- RIGHT: CAROUSEL -->
+      <div class="fps__col fps__media">
+        <div class="fps-carousel">
+          <div class="fps-carousel__main">
+            <div class="fps-carousel__controls">
+              <button class="fps-carousel__arrow fps-carousel__arrow--prev">‹</button>
+              <button class="fps-carousel__arrow fps-carousel__arrow--next">›</button>
+            </div>
+            <img
+              id="fps-main-image-{{ section.id }}"
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.title }}"
+              class="fps-carousel__image"
+            >
+          </div>
+          <div class="fps-carousel__thumbnails">
+            {% for image in product.images %}
+              <img
+                src="{{ image | image_url: width: 150 }}"
+                alt="{{ product.title }} thumbnail {{ forloop.index }}"
+                class="fps-carousel__thumbnail"
+                data-large="{{ image | image_url: width: 800 }}"
+              >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="fps__row fps__row--bottom">
+      <!-- LEFT: PRICE + ATC -->
+      <div class="fps__col fps__price">
+        <p class="fps__promo">{{ section.settings.promo_text }}</p>
+        <div class="fps__pricing">
+          {% if product.compare_at_price > product.price %}
+            <span class="fps__price--compare">{{ product.compare_at_price | money }}</span>
+          {% endif %}
+          <span class="fps__price--current">{{ product.price | money }}</span>
+        </div>
+
+        <form method="post" action="/cart/add" class="fps__form">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <button type="submit" class="button button--primary">
+            {{ section.settings.button_label }}
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: ICONS -->
+      <div class="fps__col fps__icons">
+        {% for block in section.blocks %}
+          {% if block.type == 'icon' %}
+            <div class="fps__icon">
+              {% if block.settings.icon != blank %}
+                <img src="{{ block.settings.icon | image_url: width: 40 }}" alt="">
+              {% endif %}
+              <p>{{ block.settings.text }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p>No product selected.</p>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.querySelector('.fps-{{ section.id }}');
+    if (!section) return;
+
+    const mainImage = section.querySelector('#fps-main-image-{{ section.id }}');
+    const thumbnails = Array.from(section.querySelectorAll('.fps-carousel__thumbnail'));
+    const prevBtn = section.querySelector('.fps-carousel__arrow--prev');
+    const nextBtn = section.querySelector('.fps-carousel__arrow--next');
+    let currentIndex = 0;
+
+    function updateImage(index) {
+      if (!thumbnails[index]) return;
+      currentIndex = index;
+      mainImage.src = thumbnails[index].dataset.large;
+      thumbnails.forEach((t) => t.classList.remove('is-active'));
+      thumbnails[index].classList.add('is-active');
+    }
+
+    thumbnails.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => updateImage(i));
+    });
+
+    prevBtn.addEventListener('click', () => {
+      updateImage((currentIndex - 1 + thumbnails.length) % thumbnails.length);
+    });
+    nextBtn.addEventListener('click', () => {
+      updateImage((currentIndex + 1) % thumbnails.length);
+    });
+
+    if (thumbnails.length) updateImage(0);
+  });
+</script>
+
+<style>
+  .featured-product-split {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .fps__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .fps__col {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  /* Text */
+  .fps__text ul {
+    list-style: none;
+    padding: 0;
+  }
+  .fps__text li::before {
+    content: '✔';
+    color: #b68d40;
+    margin-right: 6px;
+  }
+
+  /* Pricing */
+  .fps__pricing {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+  .fps__price--compare {
+    text-decoration: line-through;
+    margin-right: 8px;
+    color: #999;
+  }
+
+  /* Icons */
+  .fps__icons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .fps__icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Carousel */
+  .fps-carousel {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .fps-carousel__main {
+    flex: 1;
+    position: relative;
+  }
+  .fps-carousel__image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 6px;
+  }
+
+  .fps-carousel__thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .fps-carousel__thumbnail {
+    width: 100px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border 0.2s ease;
+  }
+  .fps-carousel__thumbnail.is-active,
+  .fps-carousel__thumbnail:hover {
+    border-color: #b68d40;
+  }
+
+  /* Carousel arrows */
+  .fps-carousel__controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+  }
+  .fps-carousel__arrow {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .fps-carousel__arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .fps__icon img {
+    height: 34px;
+    width: auto;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Product Split",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Select product" },
+    { "type": "text", "id": "promo_text", "label": "Promo text", "default": "Limited Time Offer" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Order Now" }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon with text",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Product Split",
+      "blocks": [
+        { "type": "icon", "settings": { "text": "Free Shipping" } },
+        { "type": "icon", "settings": { "text": "30-Day Guarantee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

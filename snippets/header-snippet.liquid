@@ -1,0 +1,80 @@
+<style>
+  .custom-header {
+    position: relative; /* floats above hero */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent; /* ensure transparency */
+    z-index: 50; /* higher than hero overlay */
+  }
+
+  .custom-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+
+  .custom-header__logo-image {
+    max-height: 60px;
+    height: auto;
+  }
+
+  .custom-header__menu {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .custom-header__link {
+    text-decoration: none;
+    font-weight: 600;
+    color: #fff; /* white on transparent bg */
+  }
+
+  .custom-header__actions {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .custom-header__icon {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+</style>
+<div class="custom-header">
+  <div class="custom-header__inner page-width">
+    <!-- Logo -->
+    <div class="custom-header__logo">
+      <a href="{{ routes.root_url }}">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 200 }}"
+            alt="{{ shop.name }}"
+            width="200"
+            height="auto"
+            class="custom-header__logo-image"
+          >
+        {% else %}
+          <span class="custom-header__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <!-- Menu -->
+    <nav class="custom-header__nav">
+      <ul class="custom-header__menu list-unstyled">
+        <li><a href="/" class="custom-header__link">Home</a></li>
+        <li><a href="/collections/all" class="custom-header__link">Shop</a></li>
+        <li><a href="/pages/about" class="custom-header__link">About</a></li>
+        <li><a href="/pages/contact" class="custom-header__link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Right icons -->
+    <div class="custom-header__actions">
+      <a href="{{ routes.cart_url }}" class="custom-header__icon">Cart</a>
+      <a href="{{ routes.account_url }}" class="custom-header__icon">Account</a>
+    </div>
+  </div>
+</div>

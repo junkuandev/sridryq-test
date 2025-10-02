@@ -16,6 +16,11 @@
         "label": "t:settings_schema.logo.settings.logo_image.label"
       },
       {
+        "type": "image_picker",
+        "id": "logo-transparent",
+        "label": "Logo Transparent"
+      },
+      {
         "type": "range",
         "id": "logo_width",
         "min": 50,

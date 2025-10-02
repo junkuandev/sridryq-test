@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -8,32 +17,44 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
+            "text": "<p><strong>EXTENDED NEW YEAR, NEW YOU</strong> sale</p>",
             "link": ""
           }
         }
       },
       "block_order": [
         "announcement-bar-0"
-      ]
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "bar_height": 48
+      }
     },
     "header": {
       "type": "header",
       "settings": {
-        "color_scheme": "scheme-1",
+        "enable_transparent-header": true,
+        "enable_hover_animation": true,
+        "color-transparent": "",
+        "color-hover-background": "",
+        "color-hover-text": "",
         "logo_position": "middle-left",
+        "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
+        "sticky_header_type": "none",
+        "show_line_separator": false,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "",
         "enable_country_selector": true,
         "enable_language_selector": true,
-        "mobile_logo_position": "center",
+        "enable_customer_avatar": true,
         "margin_bottom": 0,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 0,
+        "enable_transparent_header": false
       }
     }
   },
