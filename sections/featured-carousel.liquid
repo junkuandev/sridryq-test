@@ -1,11 +1,28 @@
-<div class="featured-product-split fps-{{ section.id }}">
+<div class="page-width featured-product-split fps-{{ section.id }}">
   {% assign product = all_products[section.settings.product] %}
   {% if product %}
     <!-- TOP ROW -->
     <div class="fps__row fps__row--top">
       <!-- LEFT: DESCRIPTION -->
       <div class="fps__col fps__text">
-        {{ product.description }}
+        <div class="fps__text-grid">
+          <!-- LEFT: Product Title -->
+          <h2 class="product__title {{ block.shopify_attributes }}">
+            {%- unless placeholder -%}
+              {{ product.title | escape }}
+            {%- else -%}
+              {{ 'onboarding.product_title' | t }}
+            {%- endunless -%}
+          </h2>
+
+          <!-- RIGHT: Trust Badge -->
+          <div class="product__trust-badge">
+            <img src="{{ 'trust-badge.png' | asset_url }}" alt="Trust badge" loading="lazy">
+          </div>
+        </div>
+        <div class="fps__desc">
+          {{ product.description }}
+        </div>
       </div>
 
       <!-- RIGHT: CAROUSEL -->
@@ -112,7 +129,6 @@
 
 <style>
   .featured-product-split {
-    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -120,14 +136,81 @@
   .fps__row {
     display: flex;
     justify-content: space-between;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
   }
 
   .fps__col {
     flex: 1;
-    min-width: 300px;
+  }
+
+  /* 30% / 70% split for top row */
+  .fps__row--top .fps__text {
+    flex: 0 0 30%; /* fixed at 30% */
+    min-width: 437px;
+    max-width: 100%;
+  }
+
+  .fps__row--top .fps__media {
+    /* flex: 0 0 70%; */
+    max-width: 70%;
+  }
+
+  /* Optional: 50/50 for bottom row */
+  .fps__row--bottom .fps__price,
+  .fps__row--bottom .fps__icons {
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
+
+  /* Center the columns of the bottom row vertically */
+  .fps__row--bottom {
+    display: flex;
+    align-items: center; /* centers both left and right columns vertically */
+    justify-content: space-between; /* keeps them spaced apart horizontally */
+    gap: 2rem; /* optional spacing between left and right columns */
+    margin-top: 60px;
+  }
+
+  /* Make sure each column adjusts naturally */
+  .fps__col {
+    flex: 1;
+  }
+
+  /* Optional: if your icons grid should stay compact and center its own content */
+  .fps__icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* center icons horizontally */
+    align-items: center; /* center icon + text vertically within their cells */
+    gap: 1rem;
+  }
+
+  .fps__icon {
+    display: flex;
+    align-items: center; /* vertically align icon + text */
+    gap: 0.5rem;
+
+    max-height: 40px !important;
+  }
+
+  .fps__col.fps__price {
+    text-align: center;
+  }
+
+  /* Make it responsive */
+  @media (max-width: 767px) {
+    .fps__row {
+      flex-direction: column;
+    }
+
+    .fps__row--top .fps__text,
+    .fps__row--top .fps__media,
+    .fps__row--bottom .fps__price,
+    .fps__row--bottom .fps__icons {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
   }
 
   /* Text */
@@ -150,6 +233,43 @@
     text-decoration: line-through;
     margin-right: 8px;
     color: #999;
+  }
+  .fps__text-grid .product__title {
+    font-size: 40px;
+  }
+  /* Description layout */
+  .fps__desc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fps__desc p {
+    font-size: 16px !important;
+    line-height: 30px !important;
+  }
+
+  /* Each line (auto-split <span> or <br>) should behave like a row */
+  .fps__desc span {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.4;
+  }
+
+  /* Create the 2-column illusion */
+  .fps__desc span::before {
+    content: '✔️';
+    flex: 0 0 20px; /* fixed width for check column */
+    text-align: center;
+    margin-top: 2px;
+  }
+
+  /* Optional: for non-breaking multi-line alignment */
+  .fps__desc span {
+    text-indent: 0;
+    padding-left: 0;
+    margin: 0;
   }
 
   /* Icons */
@@ -224,6 +344,26 @@
     height: 34px;
     width: auto;
   }
+  .fps__text-grid {
+    display: grid;
+    grid-template-columns: 1fr auto; /* title on left, badge on right */
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .product__title {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .product__trust-badge img {
+    min-width: 142px;
+    height: 142px; /* adjust to your badge height */
+    width: auto;
+    display: block;
+  }
 </style>
 
 {% schema %}
@@ -231,7 +371,7 @@
   "name": "Featured Product Split",
   "settings": [
     { "type": "product", "id": "product", "label": "Select product" },
-    { "type": "text", "id": "promo_text", "label": "Promo text", "default": "Limited Time Offer" },
+    { "type": "html", "id": "promo_text", "label": "Promo text", "default": "<p>Limited Time Offer</p>" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Order Now" }
   ],
   "blocks": [

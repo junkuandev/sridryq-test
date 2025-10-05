@@ -9,9 +9,22 @@
         padding-right: 0;
   }
   .list-menu--inline { 
-    gap: 56px;
+    gap: 54px;
   }
 }
 
 
+/* Minimal Pixel Perfect Reset */
+/* reset.css */
+/* Apply only inside sections with .pp */
+.pp, 
+.pp * {
+  line-height: 1;
+  box-sizing: border-box;
+}
 
+@media screen and (min-width: 990px) {
+  .header__menu-item {
+    padding: 0!important;
+  }
+}

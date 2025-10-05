@@ -1,9 +1,9 @@
 {%- assign hero_product = all_products[section.settings.hero_product] -%}
 
-<section class="hero" style="background-image:url({{ section.settings.bg_image | image_url: width: 2400 }});">
+<section class="hero pp" style="background-image:url({{ section.settings.bg_image | image_url: width: 2400 }});">
   <div class="hero__overlay"></div>
 
-  <div class="hero__content page-width">
+  <div class="hero__content page-width pp">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'heading' -%}
@@ -60,8 +60,10 @@
         {%- when 'afterpay' -%}
           {%- if hero_product -%}
             <div class="hero__afterpay">
-              or 4 interest-free payments of
-              <strong>{{ hero_product.price | divided_by: 4 | money }}</strong> with
+              <span
+                >or 4 interest-free payments of
+                <strong>{{ hero_product.price | divided_by: 4 | money }}</strong> with</span
+              >
               <svg
                 width="86"
                 height="30"
@@ -175,10 +177,10 @@
   /* ===================================
    HERO SECTION
 =================================== */
+
   .hero {
     position: relative;
     width: 100%;
-    height: 100%;
     min-height: 750px;
     padding-top: 140px;
     padding-inline: clamp(12px, 3vw, 32px);
@@ -193,33 +195,16 @@
     background-repeat: no-repeat;
   }
 
-  /* Gradient fade bottom */
-  .hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    /* background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 85%, #fff 100%); */
-    pointer-events: none;
-    z-index: -1;
+  /* Reset EVERYTHING inside hero */
+  .hero * {
+    margin: 0;
+    padding: 0;
+    line-height: 1; /* force tight box */
+    box-sizing: border-box;
   }
 
-  /* Mobile adjustments */
-  @media (max-width: 767px) {
-    .hero {
-      background-position: center;
-      padding-top: 100px;
-    }
-    .hero__content {
-      padding: 26px 0 !important;
-    }
-  }
-
-  /* Overlay (if needed) */
-  .hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: transparent;
-    pointer-events: none;
+  .hero__countdown p {
+    font-weight: 600;
   }
 
   /* ===================================
@@ -252,22 +237,19 @@
    TYPOGRAPHY
 =================================== */
   .hero__heading {
+    font-size: clamp(40px, 5vw, 40px);
+    font-weight: 800;
+    display: inline-block; /* shrink-wrap text */
+    vertical-align: top; /* remove baseline gap */
     margin-top: 49px;
-    font-size: clamp(24px, 5vw, 40px);
-  }
-  .hero__heading p {
-    margin: 0 !important;
   }
 
   .hero__subheading {
-    font-size: clamp(16px, 2.2vw, 24px);
+    font-size: clamp(24px, 2.2vw, 24px);
+    margin-top: 52px;
   }
   .hero__subheading em strong {
     color: #b87664;
-  }
-
-  .hero__countdown p {
-    margin-bottom: 0 !important;
   }
 
   /* ===================================
@@ -276,49 +258,44 @@
   .hero .button {
     width: 100%;
     height: 62px;
-    margin-top: 8px;
     padding: 0.9rem 1.6rem;
-
     border-radius: 5px;
     transition: transform 0.06s ease, filter 0.2s ease;
   }
-
   .hero .button:after {
     box-shadow: none;
   }
   .hero .button:active {
     transform: translateY(1px);
   }
-
-  /* Variants */
   .hero .button--primary {
     background: #b68d40;
     color: #fff;
     max-width: clamp(202px, 28vw, 407px);
-  }
-  .hero .button--secondary {
-    background: #eee;
-    color: #222;
-    max-width: clamp(202px, 28vw, 407px);
+    margin-top: 37px;
   }
   .hero .button--paypal {
     background: #ffc439;
     color: #111;
     max-width: clamp(204px, 28vw, 408px);
+    margin-top: 8px;
   }
   .hero .button--paypal:hover {
     filter: brightness(0.95);
   }
 
   /* ===================================
-   COUNTDOWN TIMER
+   COUNTDOWN
 =================================== */
+  .hero__countdown {
+    margin-top: 39px;
+  }
   .countdown__timer {
     display: flex;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 12px;
+    margin-top: 14px;
   }
-
   .countdown__timer > time {
     display: flex;
     flex-direction: column;
@@ -332,28 +309,22 @@
     min-width: 50px;
     min-height: 66px;
     padding: 0.4rem 0.6rem;
-    line-height: 1.2;
   }
-
   .countdown__num {
     font-size: 24px;
     font-weight: 700;
-    line-height: 1;
-    margin: 0;
   }
-
   .countdown__label {
     font-size: 0.75rem;
     opacity: 0.85;
-    margin-top: 2px;
   }
 
   /* ===================================
    AFTERPAY BADGE
 =================================== */
   .hero__afterpay {
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
+    margin-top: 13px;
+    font-size: 10px;
     color: #333;
 
     display: flex;
@@ -364,6 +335,44 @@
   .hero__afterpay .afterpay-logo {
     height: 20px;
     width: auto;
+  }
+
+  /* ===================================
+   MOBILE ADJUSTMENTS
+=================================== */
+  @media (max-width: 767px) {
+    .hero {
+      padding: 0 0 26px 0 !important;
+    }
+    .hero__subheading {
+      margin-top: 39px;
+    }
+
+    .hero .button--paypal {
+      margin-top: 15px;
+    }
+
+    .hero__afterpay {
+      flex-direction: column;
+      gap: 15px;
+      position: relative;
+      padding-bottom: 15px; /* space for separator */
+    }
+
+    .hero__afterpay::after {
+      content: '';
+      display: block;
+      width: 55px;
+      height: 1px;
+      background: #d3d3d3;
+      margin-top: 15px;
+    }
+    .hero__countdown {
+      margin-top: 30px;
+    }
+    .countdown__timer {
+      margin-top: 14px;
+    }
   }
 {% endstylesheet %}
 
