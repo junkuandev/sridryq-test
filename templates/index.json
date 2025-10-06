@@ -216,30 +216,241 @@
     },
     "stat_banner_tHVwnJ": {
       "type": "stat-banner",
+      "blocks": {
+        "text_KDhzHb": {
+          "type": "text",
+          "settings": {
+            "text": "Over"
+          }
+        },
+        "highlight_FVwGt6": {
+          "type": "highlight",
+          "settings": {
+            "text": "90%"
+          }
+        },
+        "text_h6wBYw": {
+          "type": "text",
+          "settings": {
+            "text": "of consumers saw their dry time cut by"
+          }
+        },
+        "highlight_qaHNz9": {
+          "type": "highlight",
+          "settings": {
+            "text": "25%"
+          }
+        },
+        "text_pRCxdV": {
+          "type": "text",
+          "settings": {
+            "text": "or more!"
+          }
+        }
+      },
+      "block_order": [
+        "text_KDhzHb",
+        "highlight_FVwGt6",
+        "text_h6wBYw",
+        "highlight_qaHNz9",
+        "text_pRCxdV"
+      ],
+      "custom_css": [
+        ".stat-banner__block:nth-of-type(3) {max-width: 25%;}"
+      ],
       "name": "Statistic Banner",
       "settings": {
         "text_alignment": "center",
         "margin_top": 42,
-        "text_left": "Over",
-        "number_one": "90%",
-        "text_middle": "of consumers saw their dry<br> time cut by",
-        "number_two": "25%",
-        "text_right": "or more!",
         "highlight_color": "#b48b56"
       }
     },
     "stat_banner_AtHxDR": {
       "type": "stat-banner",
+      "blocks": {
+        "highlight_CVJXjc": {
+          "type": "highlight",
+          "settings": {
+            "text": "85%"
+          }
+        },
+        "text_KH7KNw": {
+          "type": "text",
+          "settings": {
+            "text": "of participants felt the SRI DryQ doesn’t damage their hair like other hair dryers."
+          }
+        }
+      },
+      "block_order": [
+        "highlight_CVJXjc",
+        "text_KH7KNw"
+      ],
+      "custom_css": [
+        ".stat-banner__block {max-width: 70%; text-align: left;}",
+        "@media (max-width: 767px) {.stat-banner__block {max-width: 60%; }}"
+      ],
       "name": "Statistic Banner",
       "settings": {
-        "text_alignment": "left",
+        "text_alignment": "center",
         "margin_top": 12,
-        "text_left": "",
-        "number_one": "85%",
-        "text_middle": "of participants felt the SRI DryQ doesn’t damage their hair like<br> other hair dryers.",
-        "number_two": "",
-        "text_right": "",
         "highlight_color": "#b48b56"
+      }
+    },
+    "two_column_info_jNH4im": {
+      "type": "two-column-info",
+      "blocks": {
+        "richtext_block_aLh4rP": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p>Infrared and ionic tech target the inside and outside of the hair cuticle. This means you can dry your hair faster, without putting those gorgeous strands at risk! Infrared technology uses a gentle heat that dries your hair from the inside out. This helps reduce drying time and the risk of overheating. <br/><br/>At the same time, ionic technology emits negative ions that break down water molecules on the hair’s surface for quicker drying. This powerful combination supports fast, healthy drying.<br/><br/></p>",
+            "font_size": 18,
+            "show_divider": false,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        }
+      },
+      "block_order": [
+        "richtext_block_aLh4rP"
+      ],
+      "name": "Two Column Info",
+      "settings": {
+        "bg_color": "#f9f7f2",
+        "text_color": "#dfa789",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "title": "5 Reasons You’ll Love the DryQ",
+        "text": "<p>1. Cut Down Drying Time with Ionic & Infrared Combo<br/><br/></p>",
+        "image": "shopify://shop_images/image_53.png"
+      }
+    },
+    "two_column_info_XTg96h": {
+      "type": "two-column-info",
+      "blocks": {
+        "richtext_block_zJ3bYU": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p>Traditional hair dryers blow harsh, high heat that your hair cuticles simply can’t handle. When exposed to these high temperatures, the moisture in the hair shaft can turn into steam. This steam creates tiny bubbles inside the hair cuticle that leaves your hair prone to breakage and split ends. <br/><br/>This is why the DryQ has Infrared technology, so you have a <strong>gentle, but powerful </strong>heat that works that actually benefits your hair.<br/><br/></p>",
+            "font_size": 18,
+            "show_divider": false,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        }
+      },
+      "block_order": [
+        "richtext_block_zJ3bYU"
+      ],
+      "name": "Two Column Info",
+      "settings": {
+        "bg_color": "#f9f7f2",
+        "text_color": "#dfa789",
+        "padding_top": 50,
+        "padding_bottom": 0,
+        "title": "",
+        "text": "<p>2. Minimize Heat Damage with Gentle Heat</p>",
+        "image": "shopify://shop_images/image_98.png"
+      }
+    },
+    "two_column_info_f8NVCd": {
+      "type": "two-column-info",
+      "blocks": {
+        "richtext_block_NaPDxy": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p>Your<strong> hair retains healthy moisture</strong> with the DryQ’s infrared and ionic technology. The infrared technology gently heats hair from within, while the negative ions seal the cuticle. This combination helps lock in hydration to keep your hair soft, smooth, and frizz-free. <br/><br/>This dual action not only promotes healthier, shinier hair but also prevents the dryness that leads to frizz, brittleness, and breakage.<br/><br/></p>",
+            "font_size": 18,
+            "show_divider": false,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        }
+      },
+      "block_order": [
+        "richtext_block_NaPDxy"
+      ],
+      "name": "Two Column Info",
+      "settings": {
+        "bg_color": "#f9f7f2",
+        "text_color": "#dfa789",
+        "padding_top": 50,
+        "padding_bottom": 0,
+        "title": "",
+        "text": "<p>3. DryQ Technology Helps Nourish Dry, Brittle Hair<br/></p>",
+        "image": "shopify://shop_images/image_99.png"
+      }
+    },
+    "two_column_info_hUPTfH": {
+      "type": "two-column-info",
+      "blocks": {
+        "richtext_block_difH3b": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p>Negative ions help you maintain smooth, frizz-free hair. Healthy hair cuticles lay flat, like shingles on a roof, keeping your hair smooth and shiny. But when exposed to humidity, dryness, or damage, the cuticles lift, allowing moisture in that creates frizz. <br/><br/>This lifted cuticle creates a rough texture, making hair appear dull and unruly. The DryQ keeps your hair cuticles smooth, so you can maintain a glossy, frizz-free style.<br/><br/></p>",
+            "font_size": 18,
+            "show_divider": false,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        }
+      },
+      "block_order": [
+        "richtext_block_difH3b"
+      ],
+      "name": "Two Column Info",
+      "settings": {
+        "bg_color": "#f9f7f2",
+        "text_color": "#dfa789",
+        "padding_top": 50,
+        "padding_bottom": 0,
+        "title": "",
+        "text": "<p>4. Smooth Frizz with Negative Ions</p>",
+        "image": "shopify://shop_images/image_100.png"
+      }
+    },
+    "two_column_info_8UxLRX": {
+      "type": "two-column-info",
+      "blocks": {
+        "richtext_block_3DbRnB": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p>The <strong>DryQ helps thinning hair</strong> with 650 nanometers of infrared light (the optimal wavelength referenced in studies). The infrared light helps stimulate hair growth by increasing blood circulation to the scalp, reducing inflammation, and boosting cellular activity in hair follicles. <br/><br/>This helps your hair grow thicker and stronger by keeping follicles healthy. This extends the time your hair stays in the growth phase.<br/><br/></p>",
+            "font_size": 18,
+            "show_divider": false,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        },
+        "richtext_block_GEM9dF": {
+          "type": "richtext_block",
+          "settings": {
+            "content": "<p><em>1. Based on the consumer study results of 35 females conducted by ASL Pharmaceutical, an internationally-recognized lab for safety and efficacy testing.</em></p><p><em><strong>Other Sources<br/></strong></em></p><ul><li><em>Yang K, Tang Y, Ma Y, Liu Q, Huang Y, Zhang Y, Shi X, Zhang L, Zhang Y, Wang J, Zhu Y, Liu W, Tan Y, Lin J, Wu W. Hair Growth Promoting Effects of 650 nm Red Light Stimulation on Human Hair Follicles and Study of Its Mechanisms via RNA Sequencing Transcriptome Analysis. Ann Dermatol. 2021 Dec;33(6):553-561. doi: 10.5021/ad.2021.33.6.553. Epub 2021 Nov 4. PMID: 34858007; PMCID: PMC8577899.</em></li></ul><p></p><ul><li><em>Collin, R. W., & Field, L. (2021). Thermal styling: A look at hair shaft deficiencies. The Cosmetic Chemist. Retrieved from.</em></li></ul><p></p>",
+            "font_size": 10,
+            "show_divider": true,
+            "divider_color": "#cccccc",
+            "divider_width": 100,
+            "divider_thickness": 1
+          }
+        }
+      },
+      "block_order": [
+        "richtext_block_3DbRnB",
+        "richtext_block_GEM9dF"
+      ],
+      "name": "Two Column Info",
+      "settings": {
+        "bg_color": "#f9f7f2",
+        "text_color": "#dfa789",
+        "padding_top": 50,
+        "padding_bottom": 0,
+        "title": "",
+        "text": "<p>5. Combat Thinning Hair with Red Light Technology</p>",
+        "image": "shopify://shop_images/image_101.png"
       }
     }
   },
@@ -248,6 +459,11 @@
     "featured_carousel_FT8F7G",
     "carousel_bhmLc9",
     "stat_banner_tHVwnJ",
-    "stat_banner_AtHxDR"
+    "stat_banner_AtHxDR",
+    "two_column_info_jNH4im",
+    "two_column_info_XTg96h",
+    "two_column_info_f8NVCd",
+    "two_column_info_hUPTfH",
+    "two_column_info_8UxLRX"
   ]
 }
