@@ -8,19 +8,35 @@
 >
   <div class="stat-banner__content">
     <p class="stat-banner__text">
-      <span>{{ section.settings.text_left }}</span>
-      <span class="stat-banner__highlight">{{ section.settings.number_one }}</span>
-      <span>{{ section.settings.text_middle }}</span>
-      <span class="stat-banner__highlight">{{ section.settings.number_two }}</span>
-      <span>{{ section.settings.text_right }}</span>
+      {%- for block in section.blocks -%}
+        {% case block.type %}
+          {% when 'text' %}
+            <span class="stat-banner__block">{{ block.settings.text }}</span>
+
+          {% when 'highlight' %}
+            <span
+              id="stat-block-{{ block.id }}"
+              class="stat-banner__block stat-banner__highlight"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.text }}
+            </span>
+        {% endcase %}
+      {%- endfor -%}
     </p>
   </div>
 </section>
 
 <style>
-  /* Scoped dynamic styles */
+  /* Per-section dynamic color */
   #stat-banner-{{ section.id }} .stat-banner__highlight {
     color: {{ section.settings.highlight_color }};
+  }
+
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} {
+      padding: 0 14px !important;
+    }
   }
 </style>
 
@@ -49,46 +65,49 @@
       "default": 40
     },
     {
-      "type": "text",
-      "id": "text_left",
-      "label": "Left text",
-      "default": "Over"
-    },
-    {
-      "type": "text",
-      "id": "number_one",
-      "label": "First number",
-      "default": "90%"
-    },
-    {
-      "type": "text",
-      "id": "text_middle",
-      "label": "Middle text",
-      "default": "of consumers saw their dry time cut by"
-    },
-    {
-      "type": "text",
-      "id": "number_two",
-      "label": "Second number",
-      "default": "25%"
-    },
-    {
-      "type": "text",
-      "id": "text_right",
-      "label": "Right text",
-      "default": "or more!"
-    },
-    {
       "type": "color",
       "id": "highlight_color",
       "label": "Highlight color",
       "default": "#b48b56"
     }
   ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Regular Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Regular text"
+        }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Highlight Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Highlight text",
+          "default": "90%"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "Statistic Banner",
-      "category": "Custom"
+      "category": "Custom",
+      "blocks": [
+        { "type": "text" },
+        { "type": "highlight" },
+        { "type": "text" },
+        { "type": "highlight" },
+        { "type": "text" }
+      ]
     }
   ]
 }
