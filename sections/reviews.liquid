@@ -1,0 +1,439 @@
+<section id="reviews-{{ section.id }}" class="reviews-70-30">
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="rv-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p class="rv-subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <div class="rv-grid">
+      <!-- LEFT COLUMN -->
+      <div class="rv-left">
+        <!-- === REVIEW SUMMARY === -->
+        <div class="summary-wrapper">
+          <div class="rv-summary">
+            <div class="rv-summary-top">
+              <span class="rv-platform">
+                <img
+                  src="{{ 'amazon-circle-logo.png' | asset_url }}"
+                  alt="{{ section.settings.platform_name }}"
+                  class="rv-summary-icon"
+                >
+                {{ section.settings.platform_name }}
+              </span>
+              <span class="rv-summary-rating">{{ section.settings.platform_rating }}</span>
+            </div>
+
+            <div class="rv-summary-mid">
+              <span class="rv-summary-source">
+                <img src="{{ 'amazon-text-logo.png' | asset_url }}" alt="Amazon" class="rv-amazon">
+                <span class="rv-amazon-text">Reviews</span>
+              </span>
+              <div class="rv-summary-footer">
+                <div class="rv-summary-stars">
+                  {%- for i in (1..5) -%}
+                    {% if i <= section.settings.platform_stars %}
+                      ★
+                    {% else %}
+                      ☆
+                    {% endif %}
+                  {%- endfor -%}
+                </div>
+                <span class="rv-summary-count">({{ section.settings.review_count }})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- === CAROUSEL === -->
+        <div class="rv-carousel">
+          <div class="rv-viewport">
+            <button class="rv-btn rv-prev" type="button" aria-label="Previous">‹</button>
+            <div class="rv-track">
+              {% for block in section.blocks %}
+                <article
+                  class="rv-card"
+                  style="background-color: {{ section.settings.card_bg_color }};"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="rv-stars">
+                    {%- for i in (1..block.settings.star_number) -%}
+                      ★
+                    {%- endfor -%}
+                  </div>
+                  <h4 class="rv-title">{{ block.settings.title }}</h4>
+                  <p class="rv-sub">{{ block.settings.subtitle }}</p>
+
+                  {% if block.settings.link != blank %}
+                    <a href="{{ block.settings.link }}" target="_blank" class="rv-link">Read more</a>
+                  {% endif %}
+
+                  <div class="rv-footer">
+                    {% if block.settings.image != blank %}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 40 }}"
+                        alt="{{ block.settings.reviewer_name }}"
+                        class="rv-avatar"
+                      >
+                    {% endif %}
+                    <div class="rv-reviewer">
+                      <span class="rv-name">{{ block.settings.reviewer_name }}</span>
+                      <span class="rv-date">{{ block.settings.reviewer_date }}</span>
+                    </div>
+                    <img src="{{ 'amazon-text-logo.png' | asset_url }}" alt="Amazon" class="rv-amazon">
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+            <button class="rv-btn rv-next" type="button" aria-label="Next">›</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <aside class="rv-right">
+        {% if section.settings.side_image != blank %}
+          <img class="rv-side-img" src="{{ section.settings.side_image | image_url: width: 700 }}" alt="">
+        {% endif %}
+        {% if section.settings.side_text != blank %}
+          <p class="rv-side-text">{{ section.settings.side_text }}</p>
+        {% endif %}
+      </aside>
+    </div>
+  </div>
+
+  <style>
+    .reviews-70-30 {
+      background: #e7e7e7;
+      padding: 2.5rem 0;
+    }
+
+    .reviews-70-30 .page-width {
+      max-width: var(--page-width, 1200px);
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    .rv-heading,
+    .rv-subheading {
+      text-align: center;
+      margin: 0 0 0.5rem;
+    }
+    .rv-subheading {
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .rv-grid {
+      display: grid;
+      grid-template-columns: 65% 35%;
+      gap: 2rem;
+      align-items: start;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    /* === SUMMARY === */
+    .summary-wrapper {
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .rv-summary {
+      background: #e7e7e7;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+    }
+    .rv-summary-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+    .rv-summary-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .rv-summary-mid {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+    }
+    .rv-summary-footer {
+      display: flex;
+      align-items: center;
+    }
+    .rv-summary-stars {
+      color: #c19b61;
+      font-size: 2.5rem;
+      letter-spacing: 0;
+      margin: 0 0.25rem;
+    }
+    .rv-summary-count {
+      opacity: 0.8;
+      font-size: 1rem;
+    }
+
+    /* === CAROUSEL === */
+    .rv-carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .rv-viewport {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+    .rv-track {
+      display: flex;
+      gap: 16px;
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+
+    /* === REVIEW CARD === */
+    .rv-card {
+      flex: 0 0 calc((100% - (16px * 2)) / 3);
+      max-width: 220px;
+      height: 240px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 1rem 1.5rem 3.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .rv-stars {
+      color: #c19b61;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .rv-title {
+      margin: 0.1rem 0 0.15rem;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .rv-sub {
+      flex-grow: 1;
+      font-size: 12px;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.5rem;
+      max-height: 7rem;
+    }
+
+    .rv-link {
+      font-size: 0.8rem;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .rv-footer {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      width: 100%;
+    }
+
+    .rv-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .rv-name {
+      font-weight: 600;
+    }
+    .rv-date {
+      opacity: 0.7;
+    }
+    .rv-amazon {
+      width: 7.5rem;
+      height: auto;
+    }
+
+    /* === BUTTONS === */
+    .rv-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 0;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      z-index: 5;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rv-prev {
+      left: 2.5rem;
+    }
+    .rv-next {
+      right: 2.5rem;
+    }
+    .rv-btn[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* === RIGHT COLUMN === */
+    .rv-side-img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+    .rv-side-text {
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 990px) {
+            #reviews-{{ section.id }} {
+        display: none;
+    }
+      .rv-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rv-track {
+        gap: 0;
+      }
+
+      .rv-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .rv-prev {
+        left: 1rem;
+      }
+
+      .rv-next {
+        right: 1rem;
+      }
+    }
+  </style>
+
+  <script>
+    (function () {
+      function init(root) {
+        const viewport = root.querySelector('.rv-viewport');
+        const track = root.querySelector('.rv-track');
+        const slides = [...root.querySelectorAll('.rv-card')];
+        const prev = root.querySelector('.rv-prev');
+        const next = root.querySelector('.rv-next');
+        if (!viewport || !track || slides.length === 0) return;
+
+        let index = 0;
+
+        function step() {
+          // one full card width on mobile
+          if (window.innerWidth < 990) {
+            return viewport.clientWidth;
+          }
+          // normal spacing on desktop
+          return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : slides[0].offsetWidth;
+        }
+
+        function visible() {
+          return Math.max(1, Math.floor(viewport.clientWidth / step()));
+        }
+
+        function maxI() {
+          return Math.max(0, slides.length - visible());
+        }
+
+        function go(i) {
+          index = Math.max(0, Math.min(i, maxI()));
+          track.style.transform = 'translateX(' + -index * step() + 'px)';
+          prev.disabled = index <= 0;
+          next.disabled = index >= maxI();
+        }
+
+        prev.onclick = () => go(index - 1);
+        next.onclick = () => go(index + 1);
+        window.addEventListener('resize', () => go(index));
+        window.addEventListener('load', () => go(0));
+        go(0);
+      }
+
+      const root = document.getElementById('reviews-{{ section.id }}');
+      if (root) init(root);
+      document.addEventListener('shopify:section:load', (e) => {
+        if (e.target && e.target.id === 'reviews-{{ section.id }}') init(e.target);
+      });
+    })();
+  </script>
+
+  {% schema %}
+{
+  "name": "Reviews Carousel",
+  "settings": [
+    { "type": "color", "id": "card_bg_color", "label": "Review card background", "default": "#ffffff" },
+    { "type": "text", "id": "platform_name", "label": "Platform name", "default": "Amazon" },
+    { "type": "text", "id": "platform_rating", "label": "Platform rating text", "default": "4.4" },
+    { "type": "range", "id": "platform_stars", "label": "Stars", "min": 1, "max": 5, "default": 4 },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "523" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "See the Reviews!" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Why people love this" },
+    { "type": "image_picker", "id": "side_image", "label": "Right column image" },
+    { "type": "text", "id": "side_text", "label": "Right column text", "default": "Real reviews from verified buyers." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "star_number", "label": "Stars", "min": 1, "max": 5, "default": 5 },
+        { "type": "text", "id": "title", "label": "Title", "default": "Excellent product!" },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Lightweight, dries fast, and easy to hold."
+        },
+        { "type": "url", "id": "link", "label": "Read more link" },
+        { "type": "image_picker", "id": "image", "label": "Reviewer image" },
+        { "type": "text", "id": "reviewer_name", "label": "Reviewer name", "default": "Linda" },
+        { "type": "text", "id": "reviewer_date", "label": "Review date", "default": "June 2025" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Reviews Carousel" }]
+}
+  {% endschema %}
+</section>

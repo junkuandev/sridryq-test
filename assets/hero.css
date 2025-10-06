@@ -13,7 +13,7 @@
     display: block;
     z-index: 0;
     overflow: hidden;
-
+      
     background-size: cover;
     background-position: center -200px;
     background-repeat: no-repeat;
@@ -36,7 +36,7 @@
 =================================== */
   .hero__content {
     position: relative;
-    max-width: 1400px;
+    max-width: 1120px;
     margin: 0 auto;
     height: 100%;
 

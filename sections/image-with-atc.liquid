@@ -1,0 +1,293 @@
+<section
+  id="image-product-offer-{{ section.id }}"
+  class="image-product-offer pp"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="page-width">
+    <div class="ipo-grid">
+      <!-- LEFT COLUMN -->
+      <div class="ipo-left">
+        {% if section.settings.image != blank %}
+          <img
+            src="{{ section.settings.image | image_url: width: 800 }}"
+            alt="{{ section.settings.image_alt | escape }}"
+            class="ipo-image"
+          >
+        {% endif %}
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="ipo-right">
+        {% assign product = all_products[section.settings.product] %}
+        {% if product %}
+          <h2 class="ipo-title">{{ section.settings.heading }}</h2>
+
+          <div class="ipo-price-wrapper">
+            {% if product.compare_at_price_max > product.price %}
+              <span class="ipo-compare">{{ product.compare_at_price_max | money }}</span>
+            {% endif %}
+            <span class="ipo-price">{{ product.price | money }}</span>
+          </div>
+
+          <form method="post" action="/cart/add" class="ipo-form" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <button type="submit" class="ipo-btn">Order Now</button>
+          </form>
+
+          <!-- ICON BLOCKS -->
+          {% if section.blocks.size > 0 %}
+            <div class="ipo-icons">
+              {% for block in section.blocks %}
+                <div class="ipo-icon-item" {{ block.shopify_attributes }}>
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 48 }}"
+                      alt="{{ block.settings.text | escape }}"
+                      class="ipo-icon-img"
+                    >
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <span class="ipo-icon-text">{{ block.settings.text }}</span>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% else %}
+          <p>Select a product in the section settings.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .image-product-offer .page-width {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .ipo-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .ipo-left {
+    flex: 0 0 35%;
+    text-align: center;
+  }
+
+  .ipo-right {
+    flex: 0 0 65%;
+    text-align: center;
+  }
+
+  .ipo-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 25px;
+    object-fit: cover;
+  }
+
+  .ipo-title {
+    font-size: 18px;
+  }
+
+  .ipo-price-wrapper {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ipo-price {
+    font-size: 30px;
+    color: #c19b61;
+    font-weight: 600;
+  }
+
+  .ipo-compare {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 18px;
+  }
+
+  .ipo-btn {
+    background-color: #c59b5f;
+    color: #fff;
+    padding: 19px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 550px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: 32px;
+  }
+
+  .ipo-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* === ICON BLOCKS === */
+  .ipo-icons {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ipo-icon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .ipo-icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  .ipo-icon-text {
+    line-height: 1.4;
+  }
+  .ipo-icons {
+    display: none;
+  }
+
+  /* ========== MOBILE STYLES ========== */
+  @media (max-width: 768px) {
+    .image-product-offer {
+      background-color: #ffffff !important;
+    }
+
+    .ipo-grid {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .ipo-left,
+    .ipo-right {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .ipo-image {
+      max-width: 214px;
+      margin: 0 auto;
+    }
+
+    .ipo-price-wrapper {
+      gap: 8px;
+    }
+
+    .ipo-form {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ipo-btn {
+      width: 100%;
+      max-width: none;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .ipo-icons {
+      display: grid;
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Image + Product Offer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Left Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f6f6f6"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 40,
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 40,
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_text",
+      "name": "Icon + Text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + Product Offer"
+    }
+  ]
+}
+{% endschema %}

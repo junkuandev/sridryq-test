@@ -452,6 +452,260 @@
         "text": "<p>5. Combat Thinning Hair with Red Light Technology</p>",
         "image": "shopify://shop_images/image_101.png"
       }
+    },
+    "reviews_zEKHeA": {
+      "type": "reviews",
+      "blocks": {
+        "review_4eiE4p": {
+          "type": "review",
+          "settings": {
+            "star_number": 4,
+            "title": "Compact & lightweight",
+            "subtitle": "This hair dryer has a more compact design than the one I had been using its light weight",
+            "link": "",
+            "image": "shopify://shop_images/image_101.png",
+            "reviewer_name": "C Geesey",
+            "reviewer_date": "January 17"
+          }
+        },
+        "review_89th9g": {
+          "type": "review",
+          "settings": {
+            "star_number": 5,
+            "title": "Best hairdryer",
+            "subtitle": "Lightweight, dries fast, and easy to hold. I love how light and quiet this hairdryer is. Different setting for speed and heat is a huge bonus",
+            "link": "",
+            "image": "shopify://shop_images/image_9.jpg",
+            "reviewer_name": "Daniel Wiggins",
+            "reviewer_date": "January 17"
+          }
+        },
+        "review_KbLxLc": {
+          "type": "review",
+          "settings": {
+            "star_number": 1,
+            "title": "Not good",
+            "subtitle": "Not happy",
+            "link": "",
+            "image": "shopify://shop_images/image_9.jpg",
+            "reviewer_name": "Disappointed Customer",
+            "reviewer_date": "June 2025"
+          }
+        },
+        "review_nttb3w": {
+          "type": "review",
+          "settings": {
+            "star_number": 5,
+            "title": "Excellent product!",
+            "subtitle": "Lightweight, dries fast, and easy to hold.",
+            "link": "",
+            "image": "shopify://shop_images/image_6.jpg",
+            "reviewer_name": "Linda",
+            "reviewer_date": "June 2025"
+          }
+        },
+        "review_hQGT4Q": {
+          "type": "review",
+          "settings": {
+            "star_number": 5,
+            "title": "Excellent product!",
+            "subtitle": "Lightweight, dries fast, and easy to hold.",
+            "link": "",
+            "image": "shopify://shop_images/image_8.jpg",
+            "reviewer_name": "Linda",
+            "reviewer_date": "June 2025"
+          }
+        }
+      },
+      "block_order": [
+        "review_4eiE4p",
+        "review_89th9g",
+        "review_KbLxLc",
+        "review_nttb3w",
+        "review_hQGT4Q"
+      ],
+      "name": "Reviews Section",
+      "settings": {
+        "card_bg_color": "#e7e7e7",
+        "platform_name": "Amazon",
+        "platform_rating": "4.4",
+        "platform_stars": 4,
+        "review_count": "523",
+        "heading": "See the Reviews!",
+        "subheading": "See why the DryQ is loved by our customers!",
+        "side_image": "shopify://shop_images/Screenshot_2025-10-07_033156.png",
+        "side_text": ""
+      }
+    },
+    "image_with_atc_M6EBD9": {
+      "type": "image-with-atc",
+      "blocks": {
+        "icon_text_qGM3fB": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/amazon.svg",
+            "text": "Fulfilled by Amazon"
+          }
+        },
+        "icon_text_gcHe6w": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/60_days.svg",
+            "text": "Try it for 60 days--money-back guarantee"
+          }
+        },
+        "icon_text_qBwP9D": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/1_yr_warranty.svg",
+            "text": "1 year warranty"
+          }
+        },
+        "icon_text_ACkQTF": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/free_shipping.svg",
+            "text": "Free Shipping"
+          }
+        },
+        "icon_text_r9cAzd": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "shopify://shop_images/secure_checkout.svg",
+            "text": "Secure Checkout"
+          }
+        }
+      },
+      "block_order": [
+        "icon_text_qGM3fB",
+        "icon_text_gcHe6w",
+        "icon_text_qBwP9D",
+        "icon_text_ACkQTF",
+        "icon_text_r9cAzd"
+      ],
+      "name": "Image + Product Offer",
+      "settings": {
+        "image": "shopify://shop_images/image.jpg",
+        "image_alt": "",
+        "heading": "<p>Limited Time</p>\n<p><b>VALENTINE'S DAY</b> sale </p>",
+        "product": "the-complete-snowboard",
+        "bg_color": "#e7e7e7",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "collapsible_content_z6xcfx": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_geUgbG": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes the SRI DryQ better than a traditional hair dryer?",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_AjVTJn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I use the DryQ everyday?",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_VQPNJ3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will the DryQ really help with frizz?",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_8kX3PT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What makes the DryQ a \"smart\" hair dryer?",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_jAacRr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What happens if I'm not happy with the DryQ?",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_geUgbG",
+        "collapsible_row_AjVTJn",
+        "collapsible_row_VQPNJ3",
+        "collapsible_row_8kX3PT",
+        "collapsible_row_jAacRr"
+      ],
+      "custom_css": [
+        ".accordion {border: #cdcdcd 1px solid;}",
+        ".accordion .svg-wrapper {display: none;}",
+        ".accordion summary {padding: 1.5rem;}",
+        ".collapsible-content .accordion {margin-top: 15px;}"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_text_multicolumn_dXkWyK": {
+      "type": "image-text-multicolumn",
+      "blocks": {
+        "badge_WeEgDW": {
+          "type": "badge",
+          "settings": {
+            "image": "shopify://shop_images/image_67.png",
+            "text": "1-Year Warranty"
+          }
+        },
+        "badge_FUVHdD": {
+          "type": "badge",
+          "settings": {
+            "image": "shopify://shop_images/Free_Shipping_300x300_2.png",
+            "text": "Fast Shipping"
+          }
+        },
+        "badge_WGeEMz": {
+          "type": "badge",
+          "settings": {
+            "image": "shopify://shop_images/image_68.png",
+            "text": "60-Day Money Back Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "badge_WeEgDW",
+        "badge_FUVHdD",
+        "badge_WGeEMz"
+      ],
+      "name": "Trust Badges Row",
+      "settings": {
+        "bg_color": "#333333"
+      }
     }
   },
   "order": [
@@ -464,6 +718,10 @@
     "two_column_info_XTg96h",
     "two_column_info_f8NVCd",
     "two_column_info_hUPTfH",
-    "two_column_info_8UxLRX"
+    "two_column_info_8UxLRX",
+    "reviews_zEKHeA",
+    "image_with_atc_M6EBD9",
+    "collapsible_content_z6xcfx",
+    "image_text_multicolumn_dXkWyK"
   ]
 }
