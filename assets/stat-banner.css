@@ -1,0 +1,50 @@
+.stat-banner {
+  max-width: 740px;
+  border: 1px solid #ddd;
+  background: #fff;
+  margin: 0 auto;
+  padding: 0;
+  line-height: normal;
+    letter-spacing: normal;
+
+}
+
+.stat-banner__content {
+  margin: 0;
+  padding: 0;
+}
+
+.stat-banner__text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+    column-gap: clamp(12px, 3vw, 35px);
+
+  margin: 0;
+  padding: 25px 0;
+  font-weight: 400;
+  color: #222;
+}
+
+/* Highlight styling */
+.stat-banner__highlight {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1;
+}
+
+/* Alignment modifiers using [data-align] attribute */
+.stat-banner[data-align="left"] .stat-banner__text {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.stat-banner[data-align="center"] .stat-banner__text {
+  justify-content: center;
+  text-align: center;
+}
+
+.stat-banner[data-align="right"] .stat-banner__text {
+  justify-content: flex-end;
+  text-align: right;
+}

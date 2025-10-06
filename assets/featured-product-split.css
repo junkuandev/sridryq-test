@@ -1,0 +1,313 @@
+
+  :root {
+    --gold: #b68d40;
+    --gold-light: #c19b61;
+    --section-padding: 2rem 1rem;
+    --icon-gap: 12px;
+    --col-gap: 20px;
+  }
+.fps__form button.button.button--primary:after { box-shadow: none; }
+  /* ===============================
+       FEATURED PRODUCT SPLIT (LAYOUT)
+  =============================== */
+  .featured-product-split {
+    margin: 0 auto;
+    padding: var(--section-padding);
+  }
+
+  .fps__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--col-gap);
+  }
+
+  .fps__col {
+    flex: 1;
+  }
+
+  /* -------- Top Row: 30% / 70% -------- */
+  .fps__row--top .fps__text {
+    flex: 0 0 30%;
+    min-width: 437px;
+    max-width: 100%;
+  }
+
+  /* -------- Bottom Row: 30% / 70% -------- */
+  .fps__row--bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 60px;
+  }
+
+  .fps__row--bottom .fps__price {
+    flex: 0 0 30%;
+    max-width: 30%;
+    text-align: center;
+    min-width: 437px;
+  }
+
+  .fps__row--bottom .fps__icons {
+    flex: 0 0 70%;
+    max-width: 70%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    justify-content: start;
+    gap: 22px;
+  }
+
+  /* ===============================
+       ICONS
+  =============================== */
+  .fps__icon {
+    display: flex;
+    align-items: center;
+    gap: var(--icon-gap);
+  }
+
+  .fps__icon img {
+    height: 30px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  /* ===============================
+       TEXT & HEADINGS
+  =============================== */
+  .fps__text ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .fps__text li::before {
+    content: '✔';
+    color: var(--gold);
+    margin-right: 6px;
+  }
+
+  .fps__text-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .product__title {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0;
+    color: #daa555;
+  }
+
+  .product__trust-badge img {
+    min-width: 142px;
+    height: 142px;
+    width: auto;
+    display: block;
+  }
+
+  /* ===============================
+       DESCRIPTION
+  =============================== */
+  .fps__desc {
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fps__desc-text {
+    font-size: 16px !important;
+    line-height: 30px !important;
+  }
+
+  .fps__desc-row {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+  }
+
+  .fps__desc-icon {
+    color: var(--gold);
+  }
+
+  /* ===============================
+       PRICING & BUTTON
+  =============================== */
+  .fps__pricing {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fps__price--current {
+    font-size: 30px;
+    color: var(--gold-light);
+    margin-top: 20px;
+  }
+
+  .fps__price--compare {
+    text-decoration: line-through;
+    font-size: 18px;
+    color: #999;
+  }
+
+  .fps__form .button--primary {
+    width: 360px;
+    height: 62px;
+    background: var(--gold-light);
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: none;
+  }
+
+  /* ===============================
+       CAROUSEL
+  =============================== */
+  .fps-carousel {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .fps-carousel__main {
+    flex: 1;
+    position: relative;
+  }
+
+  .fps-carousel__image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 6px;
+  }
+
+  .fps-carousel__thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fps-carousel__thumbnail {
+    width: 100px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border 0.2s ease;
+  }
+
+  .fps-carousel__thumbnail.is-active,
+  .fps-carousel__thumbnail:hover {
+    border-color: var(--gold);
+  }
+
+  .fps-carousel__controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+    flex-direction: row;
+
+  }
+
+  .fps-carousel__arrow {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--gold);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .fps-carousel__arrow:hover {
+    background: var(--gold);
+    color: #fff;
+  }
+
+  /* ===============================
+       RESPONSIVE (Mobile)
+  =============================== */
+  @media (max-width: 767px) {
+    .fps__row {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .fps__desc-row {
+      gap: 12px;
+    }
+
+    .fps-carousel {
+      display: none !important;
+    }
+
+    .fps__row--top .fps__text,
+    .fps__row--bottom .fps__price,
+    .fps__row--bottom .fps__icons {
+      flex: 1 1 100%;
+      max-width: 100%;
+      min-width: unset;
+    }
+
+    .fps__row--bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+      margin-top: 40px;
+    }
+
+    .fps__row--bottom .fps__icons {
+      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      width: 100%;
+      gap: 15px;
+    }
+
+    .fps__icon {
+      justify-content: center;
+    }
+
+    .fps__text-grid {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 50px;
+    }
+
+    span.fps__intro p {
+      text-align: center;
+      max-width: 70%;
+      margin: auto;
+      line-height: 30px;
+    }
+
+    .fps__price--current {
+      margin-top: 22px;
+    }
+
+    .fps__form .button--primary {
+      width: 416px;
+      max-width: 100%;
+    }
+
+    .fps__promo {
+      margin-top: 0;
+    }
+  }

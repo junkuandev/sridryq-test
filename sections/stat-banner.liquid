@@ -1,0 +1,95 @@
+{{ 'stat-banner.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="stat-banner-{{ section.id }}"
+  class="stat-banner"
+  data-align="{{ section.settings.text_alignment }}"
+  style="margin-top: {{ section.settings.margin_top }}px;"
+>
+  <div class="stat-banner__content">
+    <p class="stat-banner__text">
+      <span>{{ section.settings.text_left }}</span>
+      <span class="stat-banner__highlight">{{ section.settings.number_one }}</span>
+      <span>{{ section.settings.text_middle }}</span>
+      <span class="stat-banner__highlight">{{ section.settings.number_two }}</span>
+      <span>{{ section.settings.text_right }}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Scoped dynamic styles */
+  #stat-banner-{{ section.id }} .stat-banner__highlight {
+    color: {{ section.settings.highlight_color }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Statistic Banner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top margin (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "text_left",
+      "label": "Left text",
+      "default": "Over"
+    },
+    {
+      "type": "text",
+      "id": "number_one",
+      "label": "First number",
+      "default": "90%"
+    },
+    {
+      "type": "text",
+      "id": "text_middle",
+      "label": "Middle text",
+      "default": "of consumers saw their dry time cut by"
+    },
+    {
+      "type": "text",
+      "id": "number_two",
+      "label": "Second number",
+      "default": "25%"
+    },
+    {
+      "type": "text",
+      "id": "text_right",
+      "label": "Right text",
+      "default": "or more!"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight color",
+      "default": "#b48b56"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statistic Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

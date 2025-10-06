@@ -154,10 +154,100 @@
         "promo_text": "<p>Limited Time</p>\n<b>VALENTINE'S DAY</b> sale",
         "button_label": "Order Now"
       }
+    },
+    "carousel_bhmLc9": {
+      "type": "carousel",
+      "blocks": {
+        "image_49M8MP": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_b8Cjxy": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_3.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_fx3WeN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_6.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_E6tmYT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_2.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_AczhtW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_8.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_RHeC9B": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_4.jpg",
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_49M8MP",
+        "image_b8Cjxy",
+        "image_fx3WeN",
+        "image_E6tmYT",
+        "image_AczhtW",
+        "image_RHeC9B"
+      ],
+      "name": "UGC Carousel",
+      "settings": {
+        "header": "Over 100,000 sold"
+      }
+    },
+    "stat_banner_tHVwnJ": {
+      "type": "stat-banner",
+      "name": "Statistic Banner",
+      "settings": {
+        "text_alignment": "center",
+        "margin_top": 42,
+        "text_left": "Over",
+        "number_one": "90%",
+        "text_middle": "of consumers saw their dry<br> time cut by",
+        "number_two": "25%",
+        "text_right": "or more!",
+        "highlight_color": "#b48b56"
+      }
+    },
+    "stat_banner_AtHxDR": {
+      "type": "stat-banner",
+      "name": "Statistic Banner",
+      "settings": {
+        "text_alignment": "left",
+        "margin_top": 12,
+        "text_left": "",
+        "number_one": "85%",
+        "text_middle": "of participants felt the SRI DryQ doesn’t damage their hair like<br> other hair dryers.",
+        "number_two": "",
+        "text_right": "",
+        "highlight_color": "#b48b56"
+      }
     }
   },
   "order": [
     "hero_zj8QaU",
-    "featured_carousel_FT8F7G"
+    "featured_carousel_FT8F7G",
+    "carousel_bhmLc9",
+    "stat_banner_tHVwnJ",
+    "stat_banner_AtHxDR"
   ]
 }

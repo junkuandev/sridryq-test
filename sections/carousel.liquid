@@ -1,0 +1,128 @@
+<section class="ugc-carousel" id="ugc-carousel-{{ section.id }}">
+  <h2>{{ section.settings.header }}</h2>
+  <div class="ugc-track">
+    <div class="ugc-inner">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image != blank -%}
+          <div class="ugc-item" {{ block.shopify_attributes }}>
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.alt_text | escape }}"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- duplicate the same group for seamless infinite scroll -->
+    <div class="ugc-inner">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image != blank -%}
+          <div class="ugc-item">
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.alt_text | escape }}"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+  .ugc-carousel {
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    padding: 20px 0;
+  }
+
+  .ugc-carousel h2 {
+    font-size: 35px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .ugc-track {
+    display: flex;
+    width: fit-content;
+    animation: ugcScroll 40s linear infinite;
+    margin-top: 55px;
+  }
+
+  .ugc-inner {
+    display: flex;
+  }
+
+  .ugc-item {
+    flex-shrink: 0;
+  }
+
+  .ugc-item img {
+    display: block;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 17px;
+    margin-right: 1rem;
+  }
+
+  /* This makes it truly seamless */
+  @keyframes ugcScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ugc-item img {
+      width: 150px;
+    }
+    .ugc-track {
+      margin-top: 45px;
+    }
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "UGC Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header",
+      "default": "Header"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "UGC Carousel",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

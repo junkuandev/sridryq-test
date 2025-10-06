@@ -1,81 +1,83 @@
-<div class="pp page-width featured-product-split fps-{{ section.id }}">
+{{ 'featured-product-split.css' | asset_url | stylesheet_tag }}
+{{ 'featured-product-split.js' | asset_url | script_tag }}
+<section class="featured-product-split fps-{{ section.id }} page-width pp">
   {% assign product = all_products[section.settings.product] %}
   {% if product %}
-    <!-- TOP ROW -->
+    <!-- === TOP ROW === -->
     <div class="fps__row fps__row--top">
-      <!-- LEFT: TITLE, HEADING, DESCRIPTION -->
+      <!-- TEXT COLUMN -->
       <div class="fps__col fps__text">
         <div class="fps__text-grid">
-          <h2 class="product__title">
-            {{ product.title | escape }}
-          </h2>
+          <h2 class="product__title">{{ product.title | escape }}</h2>
           <div class="product__trust-badge">
             <img src="{{ 'trust-badge.png' | asset_url }}" alt="Trust badge" loading="lazy">
           </div>
         </div>
 
-        {% if section.settings.section_heading != blank %}
+        {% if section.settings.section_heading %}
           <span class="fps__intro">{{ section.settings.section_heading }}</span>
         {% endif %}
 
-        {% if section.settings.use_product_description %}
-          <div class="fps__desc rte">
+        <div class="fps__desc rte">
+          {% if section.settings.use_product_description %}
             {{ product.description }}
-          </div>
-        {% else %}
-          <div class="fps__desc">
+          {% else %}
             {% for block in section.blocks %}
               {% if block.type == 'desc_item' %}
                 <div class="fps__desc-row">
-                  <div class="fps__desc-icon">
-                    {% if block.settings.icon != blank %}
-                      <img src="{{ block.settings.icon | image_url: width: 24 }}" alt="">
-                    {% else %}
-                      ✔
-                    {% endif %}
-                  </div>
-                  <div class="fps__desc-text">{{ block.settings.text }}</div>
+                  {% assign icon = block.settings.icon %}
+                  {% if icon %}
+                    <img class="fps__desc-icon" src="{{ icon | image_url: width: 24 }}" alt="">
+                  {% else %}
+                    <span class="fps__desc-icon">✔</span>
+                  {% endif %}
+                  <span class="fps__desc-text">{{ block.settings.text }}</span>
                 </div>
               {% endif %}
             {% endfor %}
-          </div>
-        {% endif %}
-      </div>
-
-      <!-- RIGHT: CAROUSEL -->
-      <div class="fps__col fps__media">
-        <div class="fps-carousel">
-          <div class="fps-carousel__main">
-            <div class="fps-carousel__controls">
-              <button class="fps-carousel__arrow fps-carousel__arrow--prev">&#10094;</button>
-              <button class="fps-carousel__arrow fps-carousel__arrow--next">&#10095;</button>
-            </div>
-            <img
-              id="fps-main-image-{{ section.id }}"
-              src="{{ product.featured_image | image_url: width: 800 }}"
-              alt="{{ product.title }}"
-              class="fps-carousel__image"
-            >
-          </div>
-          <div class="fps-carousel__thumbnails">
-            {% for image in product.images %}
-              <img
-                src="{{ image | image_url: width: 150 }}"
-                alt="{{ product.title }} thumbnail {{ forloop.index }}"
-                class="fps-carousel__thumbnail {% if forloop.first %}is-active{% endif %}"
-                data-large="{{ image | image_url: width: 800 }}"
-              >
-            {% endfor %}
-          </div>
+          {% endif %}
         </div>
       </div>
+
+      <!-- MEDIA COLUMN -->
+      {% if product.images.size > 0 %}
+        <div class="fps__col fps__media">
+          <div class="fps-carousel">
+            <div class="fps-carousel__main">
+              <div class="fps-carousel__controls">
+                <button class="fps-carousel__arrow fps-carousel__arrow--prev" aria-label="Previous image">
+                  &#10094;
+                </button>
+                <button class="fps-carousel__arrow fps-carousel__arrow--next" aria-label="Next image">&#10095;</button>
+              </div>
+
+              <img
+                id="fps-main-image-{{ section.id }}"
+                src="{{ product.featured_image | image_url: width: 800 }}"
+                alt="{{ product.title }}"
+                class="fps-carousel__image"
+                loading="lazy"
+              >
+            </div>
+            <div class="fps-carousel__thumbnails">
+              {% for image in product.images %}
+                <img
+                  src="{{ image | image_url: width: 150 }}"
+                  alt="{{ product.title }} thumbnail {{ forloop.index }}"
+                  class="fps-carousel__thumbnail{% if forloop.first %} is-active{% endif %}"
+                  data-large="{{ image | image_url: width: 800 }}"
+                >
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
 
-    <!-- BOTTOM ROW -->
+    <!-- === BOTTOM ROW === -->
     <div class="fps__row fps__row--bottom">
-      <!-- LEFT: PRICE + ATC -->
       <div class="fps__col fps__price">
-        {% if section.settings.promo_text != blank %}
+        {% if section.settings.promo_text %}
           <p class="fps__promo">{{ section.settings.promo_text }}</p>
         {% endif %}
         <div class="fps__pricing">
@@ -88,17 +90,16 @@
         <form method="post" action="/cart/add" class="fps__form">
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
           <button type="submit" class="button button--primary">
-            {{ section.settings.button_label }}
+            {{ section.settings.button_label | default: 'Order Now' }}
           </button>
         </form>
       </div>
 
-      <!-- RIGHT: ICONS -->
       <div class="fps__col fps__icons">
         {% for block in section.blocks %}
           {% if block.type == 'icon' %}
             <div class="fps__icon">
-              {% if block.settings.icon != blank %}
+              {% if block.settings.icon %}
                 <img src="{{ block.settings.icon | image_url: width: 40 }}" alt="">
               {% endif %}
               <p>{{ block.settings.text }}</p>
@@ -110,351 +111,7 @@
   {% else %}
     <p>No product selected.</p>
   {% endif %}
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const sectionId = '{{ section.id }}';
-    const mainImage = document.getElementById(`fps-main-image-${sectionId}`);
-    const thumbnails = document.querySelectorAll(`.fps-${sectionId} .fps-carousel__thumbnail`);
-    const prevBtn = document.querySelector(`.fps-${sectionId} .fps-carousel__arrow--prev`);
-    const nextBtn = document.querySelector(`.fps-${sectionId} .fps-carousel__arrow--next`);
-    let activeIndex = 0;
-
-    const updateImage = (index) => {
-      thumbnails.forEach((t) => t.classList.remove('is-active'));
-      thumbnails[index].classList.add('is-active');
-      mainImage.src = thumbnails[index].dataset.large;
-      activeIndex = index;
-    };
-
-    thumbnails.forEach((thumb, i) => {
-      thumb.addEventListener('click', () => updateImage(i));
-    });
-
-    prevBtn?.addEventListener('click', () => {
-      const newIndex = (activeIndex - 1 + thumbnails.length) % thumbnails.length;
-      updateImage(newIndex);
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      const newIndex = (activeIndex + 1) % thumbnails.length;
-      updateImage(newIndex);
-    });
-  });
-</script>
-
-<style>
-  /* ===============================
-         FEATURED PRODUCT SPLIT (LAYOUT)
-      =============================== */
-  .featured-product-split {
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  .fps__row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .fps__col {
-    flex: 1;
-  }
-
-  /* -------- Top Row: 30% / 70% -------- */
-  .fps__row--top .fps__text {
-    flex: 0 0 30%;
-    min-width: 437px;
-    max-width: 100%;
-  }
-
-  /* -------- Bottom Row: 30% / 70% -------- */
-  .fps__row--bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    margin-top: 60px;
-  }
-
-  .fps__row--bottom .fps__price {
-    flex: 0 0 30%;
-    max-width: 30%;
-    text-align: center;
-    min-width: 437px;
-  }
-
-  .fps__row--bottom .fps__icons {
-    flex: 0 0 70%;
-    max-width: 70%;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns for icons */
-    align-items: start;
-    justify-content: start;
-    gap: 22px;
-  }
-
-  /* ===============================
-         ICONS
-      =============================== */
-  .fps__icon {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .fps__icon img {
-    height: 30px;
-    width: auto;
-    flex-shrink: 0;
-  }
-
-  /* ===============================
-         TEXT & HEADINGS
-      =============================== */
-  .fps__text ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .fps__text li::before {
-    content: '✔';
-    color: #b68d40;
-    margin-right: 6px;
-  }
-
-  .fps__text-grid {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .product__title {
-    font-size: 40px;
-    font-weight: 700;
-    margin: 0;
-    color: #daa555;
-  }
-
-  .product__trust-badge img {
-    min-width: 142px;
-    height: 142px;
-    width: auto;
-    display: block;
-  }
-
-  /* ===============================
-         DESCRIPTION
-      =============================== */
-  .fps__desc {
-    margin-top: 55px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .fps__desc-text {
-    font-size: 16px !important;
-    line-height: 30px !important;
-  }
-
-  .fps__desc-row {
-    display: flex;
-    align-items: center;
-    gap: 27px;
-  }
-
-  .fps__desc-icon {
-    color: #b68d40;
-  }
-
-  /* ===============================
-         PRICING & BUTTON
-      =============================== */
-  .fps__pricing {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fps__price--current {
-    font-size: 30px;
-    color: #c19b61;
-    margin-top: 20px;
-  }
-
-  .fps__price--compare {
-    text-decoration: line-through;
-    font-size: 18px;
-    color: #999;
-  }
-
-  .fps__form button.button.button--primary {
-    width: 360px;
-    height: 62px;
-    background: #c19b61;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-
-  .fps__form button.button.button--primary:after {
-    box-shadow: none;
-  }
-
-  /* ===============================
-         CAROUSEL
-      =============================== */
-  .fps-carousel {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  .fps-carousel__main {
-    flex: 1;
-    position: relative;
-  }
-
-  .fps-carousel__image {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 6px;
-  }
-
-  .fps-carousel__thumbnails {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .fps-carousel__thumbnail {
-    width: 100px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    transition: border 0.2s ease;
-  }
-
-  .fps-carousel__thumbnail.is-active,
-  .fps-carousel__thumbnail:hover {
-    border-color: #b68d40;
-  }
-
-  .fps-carousel__controls {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: 6px;
-    z-index: 2;
-  }
-
-  .fps-carousel__arrow {
-    background: rgba(255, 255, 255, 0.9);
-    color: #b68d40;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .fps-carousel__arrow:hover {
-    background: #b68d40;
-    color: #fff;
-  }
-
-  /* ===============================
-         RESPONSIVE (Mobile)
-      =============================== */
-  @media (max-width: 767px) {
-    /* Stack all rows */
-    .fps__row {
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .fps__desc-row {
-      gap: 12px;
-    }
-
-    /* Hide carousel */
-    .fps-carousel {
-      display: none !important;
-    }
-
-    /* Full width for text & price */
-    .fps__row--top .fps__text,
-    .fps__row--bottom .fps__price,
-    .fps__row--bottom .fps__icons {
-      flex: 1 1 100%;
-      max-width: 100%;
-      min-width: unset;
-    }
-
-    /* Align bottom row vertically */
-    .fps__row--bottom {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 1.5rem;
-      margin-top: 40px;
-    }
-
-    /* Icons single column */
-    .fps__row--bottom .fps__icons {
-      grid-template-columns: 1fr;
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      width: 100%;
-      gap: 15px;
-    }
-
-    .fps__icon {
-      justify-content: center;
-    }
-
-    /* Text Grid (Title + Badge stacked) */
-    .fps__text-grid {
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 50px;
-    }
-    span.fps__intro p {
-      text-align: center;
-      max-width: 70%;
-      margin: auto;
-      line-height: 30px;
-    }
-    .fps__price--current {
-      margin-top: 22px;
-    }
-
-    /* Button full width */
-    .fps__form button.button.button--primary {
-      width: 416px;
-      max-width: 100%;
-    }
-    .fps__promo {
-      margin-top: 0;
-    }
-  }
-</style>
+</section>
 
 {% schema %}
 {
