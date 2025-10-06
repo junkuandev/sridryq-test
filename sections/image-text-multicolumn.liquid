@@ -17,6 +17,7 @@
       </div>
     {% endfor %}
   </div>
+  <hr class="trust-badges-row__divider page-width">
 </section>
 
 {% schema %}
@@ -87,9 +88,15 @@
     display: block;
   }
   .trust-badges-row__text {
-    /* font-size: 1.1rem; */
-    /* font-weight: 600; */
     color: #fff;
+  }
+  .trust-badges-row__divider {
+    border: none;
+    border-top: 1.5px solid #606060;
+    margin: 0 auto;
+    padding: 0 !important;
+    margin-top: 32px;
+    width: 90%;
   }
   @media (max-width: 767px) {
     .trust-badges-row__item * {

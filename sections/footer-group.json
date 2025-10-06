@@ -19,36 +19,39 @@
           "settings": {
             "image": "shopify://shop_images/footer-logo.png",
             "image_width": 120,
-            "alignment": "center"
+            "alignment": ""
           }
         },
         "footer-0": {
           "type": "link_list",
           "settings": {
-            "heading": "Quick links",
-            "menu": "footer"
-          }
-        },
-        "footer-1": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Info",
+            "heading": "Menu",
             "menu": "footer"
           }
         },
         "footer-2": {
           "type": "text",
           "settings": {
-            "heading": "Our mission",
-            "subtext": "<p>Share contact information, store details, and brand content with your customers.</p>"
+            "heading": "",
+            "subtext": ""
+          }
+        },
+        "text_cXBM4m": {
+          "type": "text",
+          "settings": {
+            "heading": "FOLLOW US",
+            "subtext": ""
           }
         }
       },
       "block_order": [
         "image_93NNGe",
         "footer-0",
-        "footer-1",
-        "footer-2"
+        "footer-2",
+        "text_cXBM4m"
+      ],
+      "custom_css": [
+        ".footer__content-top {padding-left: 0; padding-right: 0;}"
       ],
       "settings": {
         "color_scheme": "scheme-2",
@@ -59,7 +62,7 @@
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": true,
-        "show_policy": false,
+        "show_policy": true,
         "margin_top": 0,
         "padding_top": 36,
         "padding_bottom": 36
