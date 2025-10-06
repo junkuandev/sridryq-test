@@ -1,28 +1,45 @@
-<div class="page-width featured-product-split fps-{{ section.id }}">
+<div class="pp page-width featured-product-split fps-{{ section.id }}">
   {% assign product = all_products[section.settings.product] %}
   {% if product %}
     <!-- TOP ROW -->
     <div class="fps__row fps__row--top">
-      <!-- LEFT: DESCRIPTION -->
+      <!-- LEFT: TITLE, HEADING, DESCRIPTION -->
       <div class="fps__col fps__text">
         <div class="fps__text-grid">
-          <!-- LEFT: Product Title -->
-          <h2 class="product__title {{ block.shopify_attributes }}">
-            {%- unless placeholder -%}
-              {{ product.title | escape }}
-            {%- else -%}
-              {{ 'onboarding.product_title' | t }}
-            {%- endunless -%}
+          <h2 class="product__title">
+            {{ product.title | escape }}
           </h2>
-
-          <!-- RIGHT: Trust Badge -->
           <div class="product__trust-badge">
             <img src="{{ 'trust-badge.png' | asset_url }}" alt="Trust badge" loading="lazy">
           </div>
         </div>
-        <div class="fps__desc">
-          {{ product.description }}
-        </div>
+
+        {% if section.settings.section_heading != blank %}
+          <span class="fps__intro">{{ section.settings.section_heading }}</span>
+        {% endif %}
+
+        {% if section.settings.use_product_description %}
+          <div class="fps__desc rte">
+            {{ product.description }}
+          </div>
+        {% else %}
+          <div class="fps__desc">
+            {% for block in section.blocks %}
+              {% if block.type == 'desc_item' %}
+                <div class="fps__desc-row">
+                  <div class="fps__desc-icon">
+                    {% if block.settings.icon != blank %}
+                      <img src="{{ block.settings.icon | image_url: width: 24 }}" alt="">
+                    {% else %}
+                      ✔
+                    {% endif %}
+                  </div>
+                  <div class="fps__desc-text">{{ block.settings.text }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <!-- RIGHT: CAROUSEL -->
@@ -30,8 +47,8 @@
         <div class="fps-carousel">
           <div class="fps-carousel__main">
             <div class="fps-carousel__controls">
-              <button class="fps-carousel__arrow fps-carousel__arrow--prev">‹</button>
-              <button class="fps-carousel__arrow fps-carousel__arrow--next">›</button>
+              <button class="fps-carousel__arrow fps-carousel__arrow--prev">&#10094;</button>
+              <button class="fps-carousel__arrow fps-carousel__arrow--next">&#10095;</button>
             </div>
             <img
               id="fps-main-image-{{ section.id }}"
@@ -45,7 +62,7 @@
               <img
                 src="{{ image | image_url: width: 150 }}"
                 alt="{{ product.title }} thumbnail {{ forloop.index }}"
-                class="fps-carousel__thumbnail"
+                class="fps-carousel__thumbnail {% if forloop.first %}is-active{% endif %}"
                 data-large="{{ image | image_url: width: 800 }}"
               >
             {% endfor %}
@@ -58,7 +75,9 @@
     <div class="fps__row fps__row--bottom">
       <!-- LEFT: PRICE + ATC -->
       <div class="fps__col fps__price">
-        <p class="fps__promo">{{ section.settings.promo_text }}</p>
+        {% if section.settings.promo_text != blank %}
+          <p class="fps__promo">{{ section.settings.promo_text }}</p>
+        {% endif %}
         <div class="fps__pricing">
           {% if product.compare_at_price > product.price %}
             <span class="fps__price--compare">{{ product.compare_at_price | money }}</span>
@@ -94,40 +113,41 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const section = document.querySelector('.fps-{{ section.id }}');
-    if (!section) return;
+  document.addEventListener('DOMContentLoaded', () => {
+    const sectionId = '{{ section.id }}';
+    const mainImage = document.getElementById(`fps-main-image-${sectionId}`);
+    const thumbnails = document.querySelectorAll(`.fps-${sectionId} .fps-carousel__thumbnail`);
+    const prevBtn = document.querySelector(`.fps-${sectionId} .fps-carousel__arrow--prev`);
+    const nextBtn = document.querySelector(`.fps-${sectionId} .fps-carousel__arrow--next`);
+    let activeIndex = 0;
 
-    const mainImage = section.querySelector('#fps-main-image-{{ section.id }}');
-    const thumbnails = Array.from(section.querySelectorAll('.fps-carousel__thumbnail'));
-    const prevBtn = section.querySelector('.fps-carousel__arrow--prev');
-    const nextBtn = section.querySelector('.fps-carousel__arrow--next');
-    let currentIndex = 0;
-
-    function updateImage(index) {
-      if (!thumbnails[index]) return;
-      currentIndex = index;
-      mainImage.src = thumbnails[index].dataset.large;
+    const updateImage = (index) => {
       thumbnails.forEach((t) => t.classList.remove('is-active'));
       thumbnails[index].classList.add('is-active');
-    }
+      mainImage.src = thumbnails[index].dataset.large;
+      activeIndex = index;
+    };
 
     thumbnails.forEach((thumb, i) => {
       thumb.addEventListener('click', () => updateImage(i));
     });
 
-    prevBtn.addEventListener('click', () => {
-      updateImage((currentIndex - 1 + thumbnails.length) % thumbnails.length);
-    });
-    nextBtn.addEventListener('click', () => {
-      updateImage((currentIndex + 1) % thumbnails.length);
+    prevBtn?.addEventListener('click', () => {
+      const newIndex = (activeIndex - 1 + thumbnails.length) % thumbnails.length;
+      updateImage(newIndex);
     });
 
-    if (thumbnails.length) updateImage(0);
+    nextBtn?.addEventListener('click', () => {
+      const newIndex = (activeIndex + 1) % thumbnails.length;
+      updateImage(newIndex);
+    });
   });
 </script>
 
 <style>
+  /* ===============================
+         FEATURED PRODUCT SPLIT (LAYOUT)
+      =============================== */
   .featured-product-split {
     margin: 0 auto;
     padding: 2rem 1rem;
@@ -144,147 +164,151 @@
     flex: 1;
   }
 
-  /* 30% / 70% split for top row */
+  /* -------- Top Row: 30% / 70% -------- */
   .fps__row--top .fps__text {
-    flex: 0 0 30%; /* fixed at 30% */
+    flex: 0 0 30%;
     min-width: 437px;
     max-width: 100%;
   }
 
-  .fps__row--top .fps__media {
-    /* flex: 0 0 70%; */
-    max-width: 70%;
-  }
-
-  /* Optional: 50/50 for bottom row */
-  .fps__row--bottom .fps__price,
-  .fps__row--bottom .fps__icons {
-    flex: 1 1 50%;
-    max-width: 50%;
-  }
-
-  /* Center the columns of the bottom row vertically */
+  /* -------- Bottom Row: 30% / 70% -------- */
   .fps__row--bottom {
     display: flex;
-    align-items: center; /* centers both left and right columns vertically */
-    justify-content: space-between; /* keeps them spaced apart horizontally */
-    gap: 2rem; /* optional spacing between left and right columns */
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
     margin-top: 60px;
   }
 
-  /* Make sure each column adjusts naturally */
-  .fps__col {
-    flex: 1;
+  .fps__row--bottom .fps__price {
+    flex: 0 0 30%;
+    max-width: 30%;
+    text-align: center;
+    min-width: 437px;
   }
 
-  /* Optional: if your icons grid should stay compact and center its own content */
-  .fps__icons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* center icons horizontally */
-    align-items: center; /* center icon + text vertically within their cells */
-    gap: 1rem;
+  .fps__row--bottom .fps__icons {
+    flex: 0 0 70%;
+    max-width: 70%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for icons */
+    align-items: start;
+    justify-content: start;
+    gap: 22px;
   }
 
+  /* ===============================
+         ICONS
+      =============================== */
   .fps__icon {
     display: flex;
-    align-items: center; /* vertically align icon + text */
-    gap: 0.5rem;
-
-    max-height: 40px !important;
+    align-items: center;
+    gap: 12px;
   }
 
-  .fps__col.fps__price {
-    text-align: center;
+  .fps__icon img {
+    height: 30px;
+    width: auto;
+    flex-shrink: 0;
   }
 
-  /* Make it responsive */
-  @media (max-width: 767px) {
-    .fps__row {
-      flex-direction: column;
-    }
-
-    .fps__row--top .fps__text,
-    .fps__row--top .fps__media,
-    .fps__row--bottom .fps__price,
-    .fps__row--bottom .fps__icons {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-  }
-
-  /* Text */
+  /* ===============================
+         TEXT & HEADINGS
+      =============================== */
   .fps__text ul {
     list-style: none;
     padding: 0;
   }
+
   .fps__text li::before {
     content: '✔';
     color: #b68d40;
     margin-right: 6px;
   }
 
-  /* Pricing */
-  .fps__pricing {
-    font-size: 1.5rem;
-    margin: 1rem 0;
+  .fps__text-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
-  .fps__price--compare {
-    text-decoration: line-through;
-    margin-right: 8px;
-    color: #999;
-  }
-  .fps__text-grid .product__title {
+
+  .product__title {
     font-size: 40px;
+    font-weight: 700;
+    margin: 0;
+    color: #daa555;
   }
-  /* Description layout */
+
+  .product__trust-badge img {
+    min-width: 142px;
+    height: 142px;
+    width: auto;
+    display: block;
+  }
+
+  /* ===============================
+         DESCRIPTION
+      =============================== */
   .fps__desc {
+    margin-top: 55px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .fps__desc p {
+  .fps__desc-text {
     font-size: 16px !important;
     line-height: 30px !important;
   }
 
-  /* Each line (auto-split <span> or <br>) should behave like a row */
-  .fps__desc span {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    line-height: 1.4;
-  }
-
-  /* Create the 2-column illusion */
-  .fps__desc span::before {
-    content: '✔️';
-    flex: 0 0 20px; /* fixed width for check column */
-    text-align: center;
-    margin-top: 2px;
-  }
-
-  /* Optional: for non-breaking multi-line alignment */
-  .fps__desc span {
-    text-indent: 0;
-    padding-left: 0;
-    margin: 0;
-  }
-
-  /* Icons */
-  .fps__icons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .fps__icon {
+  .fps__desc-row {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 27px;
   }
 
-  /* Carousel */
+  .fps__desc-icon {
+    color: #b68d40;
+  }
+
+  /* ===============================
+         PRICING & BUTTON
+      =============================== */
+  .fps__pricing {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fps__price--current {
+    font-size: 30px;
+    color: #c19b61;
+    margin-top: 20px;
+  }
+
+  .fps__price--compare {
+    text-decoration: line-through;
+    font-size: 18px;
+    color: #999;
+  }
+
+  .fps__form button.button.button--primary {
+    width: 360px;
+    height: 62px;
+    background: #c19b61;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+
+  .fps__form button.button.button--primary:after {
+    box-shadow: none;
+  }
+
+  /* ===============================
+         CAROUSEL
+      =============================== */
   .fps-carousel {
     display: flex;
     flex-direction: row;
@@ -296,6 +320,7 @@
     flex: 1;
     position: relative;
   }
+
   .fps-carousel__image {
     width: 100%;
     max-width: 600px;
@@ -307,6 +332,7 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+
   .fps-carousel__thumbnail {
     width: 100px;
     cursor: pointer;
@@ -314,12 +340,12 @@
     border-radius: 4px;
     transition: border 0.2s ease;
   }
+
   .fps-carousel__thumbnail.is-active,
   .fps-carousel__thumbnail:hover {
     border-color: #b68d40;
   }
 
-  /* Carousel arrows */
   .fps-carousel__controls {
     position: absolute;
     top: 10px;
@@ -328,41 +354,105 @@
     gap: 6px;
     z-index: 2;
   }
+
   .fps-carousel__arrow {
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #b68d40;
     border: none;
-    border-radius: 4px;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  .fps-carousel__arrow:hover {
-    background: rgba(0, 0, 0, 0.8);
-  }
-  .fps__icon img {
-    height: 34px;
-    width: auto;
-  }
-  .fps__text-grid {
-    display: grid;
-    grid-template-columns: 1fr auto; /* title on left, badge on right */
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+    display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .product__title {
-    font-size: clamp(24px, 3vw, 36px);
-    font-weight: 700;
-    margin: 0;
+  .fps-carousel__arrow:hover {
+    background: #b68d40;
+    color: #fff;
   }
 
-  .product__trust-badge img {
-    min-width: 142px;
-    height: 142px; /* adjust to your badge height */
-    width: auto;
-    display: block;
+  /* ===============================
+         RESPONSIVE (Mobile)
+      =============================== */
+  @media (max-width: 767px) {
+    /* Stack all rows */
+    .fps__row {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .fps__desc-row {
+      gap: 12px;
+    }
+
+    /* Hide carousel */
+    .fps-carousel {
+      display: none !important;
+    }
+
+    /* Full width for text & price */
+    .fps__row--top .fps__text,
+    .fps__row--bottom .fps__price,
+    .fps__row--bottom .fps__icons {
+      flex: 1 1 100%;
+      max-width: 100%;
+      min-width: unset;
+    }
+
+    /* Align bottom row vertically */
+    .fps__row--bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+      margin-top: 40px;
+    }
+
+    /* Icons single column */
+    .fps__row--bottom .fps__icons {
+      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      width: 100%;
+      gap: 15px;
+    }
+
+    .fps__icon {
+      justify-content: center;
+    }
+
+    /* Text Grid (Title + Badge stacked) */
+    .fps__text-grid {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 50px;
+    }
+    span.fps__intro p {
+      text-align: center;
+      max-width: 70%;
+      margin: auto;
+      line-height: 30px;
+    }
+    .fps__price--current {
+      margin-top: 22px;
+    }
+
+    /* Button full width */
+    .fps__form button.button.button--primary {
+      width: 416px;
+      max-width: 100%;
+    }
+    .fps__promo {
+      margin-top: 0;
+    }
   }
 </style>
 
@@ -370,27 +460,71 @@
 {
   "name": "Featured Product Split",
   "settings": [
-    { "type": "product", "id": "product", "label": "Select product" },
-    { "type": "html", "id": "promo_text", "label": "Promo text", "default": "<p>Limited Time Offer</p>" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Order Now" }
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select product"
+    },
+    {
+      "type": "richtext",
+      "id": "section_heading",
+      "label": "Section heading (intro paragraph)"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_description",
+      "label": "Use product description instead of custom items",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "promo_text",
+      "label": "Promo text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Order Now"
+    }
   ],
   "blocks": [
     {
-      "type": "icon",
-      "name": "Icon with text",
+      "type": "desc_item",
+      "name": "Description item",
       "settings": [
-        { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "text", "id": "text", "label": "Text" }
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon (optional)"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description text"
+        }
+      ]
+    },
+    {
+      "type": "icon",
+      "name": "Icon feature (bottom row)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Featured Product Split",
-      "blocks": [
-        { "type": "icon", "settings": { "text": "Free Shipping" } },
-        { "type": "icon", "settings": { "text": "30-Day Guarantee" } }
-      ]
+      "name": "Featured Product Split"
     }
   ]
 }

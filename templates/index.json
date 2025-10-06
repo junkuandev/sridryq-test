@@ -61,6 +61,42 @@
     "featured_carousel_FT8F7G": {
       "type": "featured-carousel",
       "blocks": {
+        "desc_item_Va8gLR": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Intelligent heat control dries hair faster with optimal airflow speeds."
+          }
+        },
+        "desc_item_miizCT": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Negative ions to support frizz-free styling"
+          }
+        },
+        "desc_item_4Q9pcM": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Infrared light therapy strengthens weak, brittle hair and stimulates growth."
+          }
+        },
+        "desc_item_Um7LFn": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Features 4 modes, 3 speed settings, and a memory function."
+          }
+        },
+        "desc_item_nfYkfe": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Lightweight, compact, and quiet, making it easy to take anywhere"
+          }
+        },
+        "desc_item_yAbtCE": {
+          "type": "desc_item",
+          "settings": {
+            "text": "Easy-snap magnetic attachments"
+          }
+        },
         "icon_nTekLU": {
           "type": "icon",
           "settings": {
@@ -71,43 +107,51 @@
         "icon_aH9fpp": {
           "type": "icon",
           "settings": {
-            "icon": "shopify://shop_images/Untitled.png",
-            "text": "Try it for 60  days—money-back guarantee "
+            "icon": "shopify://shop_images/free_shipping.svg",
+            "text": "Free Shipping"
           }
         },
         "icon_aFWb9f": {
           "type": "icon",
           "settings": {
-            "icon": "shopify://shop_images/Untitled.png",
-            "text": "1-year Warranty "
+            "icon": "shopify://shop_images/60_days.svg",
+            "text": "Try it for 60  days—money-back guarantee "
+          }
+        },
+        "icon_LfmnqF": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/secure_checkout.svg",
+            "text": "Secure Checkout"
           }
         },
         "icon_bhdTgY": {
           "type": "icon",
           "settings": {
-            "icon": "shopify://shop_images/Untitled.png",
-            "text": "Free Shipping "
-          }
-        },
-        "icon_YKQLGd": {
-          "type": "icon",
-          "settings": {
-            "icon": "shopify://shop_images/Untitled.png",
-            "text": "Secure Checkout "
+            "icon": "shopify://shop_images/1_yr_warranty.svg",
+            "text": "1-year Warranty"
           }
         }
       },
       "block_order": [
+        "desc_item_Va8gLR",
+        "desc_item_miizCT",
+        "desc_item_4Q9pcM",
+        "desc_item_Um7LFn",
+        "desc_item_nfYkfe",
+        "desc_item_yAbtCE",
         "icon_nTekLU",
         "icon_aH9fpp",
         "icon_aFWb9f",
-        "icon_bhdTgY",
-        "icon_YKQLGd"
+        "icon_LfmnqF",
+        "icon_bhdTgY"
       ],
       "name": "Featured Product Carousel",
       "settings": {
         "product": "the-complete-snowboard",
-        "promo_text": "Limited Time Offer",
+        "section_heading": "<p>Say <strong>goodbye to frizz</strong> with the <strong>advanced </strong>SRI DryQ.</p>",
+        "use_product_description": false,
+        "promo_text": "<p>Limited Time</p>\n<b>VALENTINE'S DAY</b> sale",
         "button_label": "Order Now"
       }
     }

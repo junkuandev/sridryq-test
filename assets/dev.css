@@ -21,6 +21,7 @@
 .pp * {
   line-height: 1;
   box-sizing: border-box;
+  letter-spacing: 0;
 }
 
 @media screen and (min-width: 990px) {
